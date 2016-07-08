@@ -1,5 +1,8 @@
 # Pokemon-Go-Controller
 
+![Alt text](result.gif?raw=true "result gif")
+![Alt text](xcode.gif?raw=true "xcode gif")  
+
 ## iOS device as game controller
 ![Alt text](controller.png?raw=true "controller")  
 Clone this xcode project and run on your iphone / ipad, this app actually perform a web server that tells your chosen location, your location will be wherever the poke ball is, so you may drag the map of press the buttons.
