@@ -55,7 +55,7 @@ Create a blank single page app with your Xcode. Remember where you put the gpx f
 ![Alt text](xcodeSimulate.png?raw=true "controller")  
 Run this project on your iOS device that will actually run the Pokemon Go game, when running, at Xcode you will see a button to simulate location, so you see the option of your gpx file. Our next step is to constantly press this two buttons to simulate your location constantly and automatically.
 
-http://stackoverflow.com/questions/4230867/how-do-i-simulate-a-mouse-click-through-the-mac-terminal/26687223
+http://stackoverflow.com/questions/4230867/how-do-i-simulate-a-mouse-click-through-the-mac-terminal/26687223  
 By this, we can simulate a / some / lot of click(s) programmatically  
 ```
 gcc -o autoClicker autoClicker.m -framework ApplicationServices -framework Foundation
