@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0730"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1111830C1D2E76AE00AD1C0E"
-               BuildableName = "PokemonController.app"
-               BlueprintName = "PokemonController"
-               ReferencedContainer = "container:PokemonController.xcodeproj">
+               BlueprintIdentifier = "E4C45EFA7D33B6E5B9193BDCF4320E40"
+               BuildableName = "Pods_PokemonController.framework"
+               BlueprintName = "Pods-PokemonController"
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,15 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1111830C1D2E76AE00AD1C0E"
-            BuildableName = "PokemonController.app"
-            BlueprintName = "PokemonController"
-            ReferencedContainer = "container:PokemonController.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -51,16 +42,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1111830C1D2E76AE00AD1C0E"
-            BuildableName = "PokemonController.app"
-            BlueprintName = "PokemonController"
-            ReferencedContainer = "container:PokemonController.xcodeproj">
+            BlueprintIdentifier = "E4C45EFA7D33B6E5B9193BDCF4320E40"
+            BuildableName = "Pods_PokemonController.framework"
+            BlueprintName = "Pods-PokemonController"
+            ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -70,16 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1111830C1D2E76AE00AD1C0E"
-            BuildableName = "PokemonController.app"
-            BlueprintName = "PokemonController"
-            ReferencedContainer = "container:PokemonController.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

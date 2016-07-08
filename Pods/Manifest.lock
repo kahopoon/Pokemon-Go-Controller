@@ -1,0 +1,14 @@
+PODS:
+  - GCDWebServer (3.3.2):
+    - GCDWebServer/Core (= 3.3.2)
+  - GCDWebServer/Core (3.3.2)
+
+DEPENDENCIES:
+  - GCDWebServer
+
+SPEC CHECKSUMS:
+  GCDWebServer: 2a375ec42839a41d7187d04e5b688d32fa5c4cd5
+
+PODFILE CHECKSUM: 38b2228a45b9b61aee2f2f7dbbafcf4c2c15eff3
+
+COCOAPODS: 1.0.0.beta.8
