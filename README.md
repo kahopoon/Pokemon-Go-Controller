@@ -1,7 +1,7 @@
 # Pokemon-Go-Controller
 
-## Controller
-![Alt text](controller.jpeg?raw=true "controller")  
+## iOS device as game controller
+![Alt text](controller.png?raw=true "controller")  
 Clone this xcode project and run on your iphone / ipad, this app actually perform a web server that tells your chosen location, your location will be wherever the poke ball is, so you may drag the map of press the buttons.
 
 ```
@@ -44,4 +44,7 @@ def start():
 
 start()
 ```
-Change the urlopen address to your controller's ip and write to somewhere your gpx file you want to put. Be sure you remember where the gpx you put :)
+Edit readAndChangeXML.py ,change the urlopen address to your controller's ip and write to somewhere your gpx file you want to put. Be sure you remember where the gpx you put :)
+
+![Alt text](receiver.png?raw=true "controller") 
+If running normal, at console you should see something like this.
