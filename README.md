@@ -44,4 +44,7 @@ def start():
 
 start()
 ```
-Change the urlopen address to your controller's ip and write to somewhere your gpx file you want to put. Be sure you remember where the gpx you put :)
+Edit readAndChangeXML.py ,change the urlopen address to your controller's ip and write to somewhere your gpx file you want to put. Be sure you remember where the gpx you put :)
+
+![Alt text](receiver.png?raw=true "controller") 
+If running normal, at console you should see something like this.
