@@ -96,3 +96,6 @@ So change the x,y location of your xcode's simulate button. LOL don't ask me you
 2. receive it and generate gpx file constantly when you move  
 3. blank project referencing the gpx and simulate on your playing device
 4. auto click the xcode buttons constantly
+
+# Have Fun!
+![Alt text](finalResult.png?raw=true "final result") 
