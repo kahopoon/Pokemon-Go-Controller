@@ -52,7 +52,7 @@ If running normal, at console you should see something like this when your drag 
 ![Alt text](blankProject.png?raw=true "controller")  
 Create a blank single page app with your Xcode. Remember where you put the gpx file? Import the gpx file to your project without copying it, just referencing.
 
-![Alt text]xcodeSimulate.png?raw=true "controller")  
+![Alt text](xcodeSimulate.png?raw=true "controller")  
 Run this project on your iOS device that will actually run the Pokemon Go game, when running, at Xcode you will see a button to simulate location, so you see the option of your gpx file. Our next step is to constantly press this two buttons to simulate your location constantly and automatically.
 
 
