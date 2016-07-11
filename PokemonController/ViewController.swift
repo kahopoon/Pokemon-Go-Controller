@@ -14,8 +14,12 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation:CLLocationCoordinate2D!
-    let moveInterval = 0.00005
+    //let moveInterval = 0.00005
     var webServer:GCDWebServer = GCDWebServer()
+    
+    func moveInterval() -> Double {
+        return Double("0.0000\(40 + (rand() % 20))")!
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,11 +35,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
 
     func changeCurrentLocation(direction:String) {
-        
-        direction == "left" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude - moveInterval) : ()
-        direction == "right" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude + moveInterval) : ()
-        direction == "up" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude + moveInterval, longitude: currentLocation.longitude) : ()
-        direction == "down" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude - moveInterval, longitude: currentLocation.longitude) : ()
+
+        direction == "left" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude - moveInterval()) : ()
+        direction == "right" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude + moveInterval()) : ()
+        direction == "up" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude + moveInterval(), longitude: currentLocation.longitude) : ()
+        direction == "down" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude - moveInterval(), longitude: currentLocation.longitude) : ()
         
         saveLocation()
         showMapOnLocation()
