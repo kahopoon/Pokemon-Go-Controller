@@ -1,10 +1,10 @@
 # Pokemon-Go-Controller
 
-![Alt text](result.gif?raw=true "result gif")
-![Alt text](xcode.gif?raw=true "xcode gif")  
+![Alt text](Assets/result.gif?raw=true "result gif")
+![Alt text](Assets/xcode.gif?raw=true "xcode gif")  
 
 ## iOS device as game controller
-![Alt text](controller.png?raw=true "controller")  
+![Alt text](Assets/controller.png?raw=true "controller")  
 Clone this xcode project and run on your iphone / ipad, this app actually perform a web server that tells your chosen location, your location will be wherever the poke ball is, so you may drag the map of press the buttons.
 
 ```
@@ -49,14 +49,14 @@ start()
 ```
 Edit readAndChangeXML.py ,change the urlopen address to your controller's ip and write to somewhere your gpx file you want to put. Be sure you remember where the gpx you put :)
 
-![Alt text](receiver.png?raw=true "controller")  
+![Alt text](Assets/receiver.png?raw=true "controller")  
 If running normal, at console you should see something like this when your drag the map or press the buttons on your game controller.
 
 ## Simulate location to target device
-![Alt text](blankProject.png?raw=true "controller")  
+![Alt text](Assets/blankProject.png?raw=true "controller")  
 Create a blank single page app with your Xcode. Remember where you put the gpx file? Import the gpx file to your project without copying it, just referencing.
 
-![Alt text](xcodeSimulate.png?raw=true "controller")  
+![Alt text](Assets/xcodeSimulate.png?raw=true "controller")  
 Run this project on your iOS device that will actually run the Pokemon Go game, when running, at Xcode you will see a button to simulate location, so you see the option of your gpx file. Our next step is to constantly press this two buttons to simulate your location constantly and automatically.
 
 http://stackoverflow.com/questions/4230867/how-do-i-simulate-a-mouse-click-through-the-mac-terminal/26687223  
@@ -101,4 +101,4 @@ So change the x,y location of your xcode's simulate button. LOL don't ask me you
 4. auto click the xcode buttons constantly
 
 # Have Fun!
-![Alt text](finalResult.png?raw=true "final result") 
+![Alt text](Assets/finalResult.png?raw=true "final result") 
