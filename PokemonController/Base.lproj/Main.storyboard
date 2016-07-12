@@ -126,8 +126,14 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="5ZF-46-uBS"/>
                                     <constraint firstAttribute="height" constant="50" id="iJK-l2-L3K"/>
+                                    <constraint firstAttribute="height" constant="50" id="nrr-f0-xmD"/>
                                 </constraints>
                                 <state key="normal" image="add-favourite"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="iJK-l2-L3K"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <action selector="addToFavourite:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9Uq-um-xya"/>
                                 </connections>
@@ -229,7 +235,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="add-favourite" width="170" height="170"/>
+        <image name="add-favourite" width="256" height="256"/>
         <image name="down" width="193" height="354"/>
         <image name="favourite" width="170" height="170"/>
         <image name="left" width="354" height="193"/>
