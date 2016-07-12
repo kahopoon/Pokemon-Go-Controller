@@ -8,8 +8,14 @@
 
 import UIKit
 
+protocol FavouritesTableViewControllerDelegate {
+    func favouritesTableViewControllerDidSelectLocation(viewController: FavouritesTableViewController, location: Location)
+}
+
 class FavouritesTableViewController: UITableViewController {
 
+    var delegate: FavouritesTableViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,21 +29,23 @@ class FavouritesTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+}
 
+extension FavouritesTableViewController {
     // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Location.allLocations().count
     }
-
+    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("LocationCell", forIndexPath: indexPath)
-
+        
         let location = Location.allLocations()[indexPath.row]
         
         cell.textLabel?.text = location.name
@@ -51,12 +59,15 @@ class FavouritesTableViewController: UITableViewController {
         
         showAlert(Location.allLocations()[indexPath.row])
     }
-    
+}
+
+extension FavouritesTableViewController {
     func showAlert(location: Location) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
-        let goAction = UIAlertAction(title: "Go!", style: UIAlertActionStyle.Default) { (action) in
-            
+        let goAction = UIAlertAction(title: "Go", style: UIAlertActionStyle.Default) { [unowned self] (action) in
+            self.delegate?.favouritesTableViewControllerDidSelectLocation(self, location: location)
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
         
         let removeAction = UIAlertAction(title: "Remove from Favourites", style: UIAlertActionStyle.Destructive) { [weak self] (action) in

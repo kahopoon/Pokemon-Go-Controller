@@ -91,7 +91,7 @@
                                         </constraints>
                                         <state key="normal" image="favourite"/>
                                         <connections>
-                                            <segue destination="IMh-JO-bic" kind="show" id="vSa-GM-VnA"/>
+                                            <segue destination="IMh-JO-bic" kind="show" identifier="PresentFavouriteViewController" id="vSa-GM-VnA"/>
                                         </connections>
                                     </button>
                                 </subviews>

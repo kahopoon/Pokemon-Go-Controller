@@ -100,8 +100,26 @@ class ViewController: UIViewController, MKMapViewDelegate {
 }
 
 extension ViewController {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "PresentFavouriteViewController",
+            let viewController = segue.destinationViewController.childViewControllers[0] as? FavouritesTableViewController {
+                viewController.delegate = self
+            
+        }
+    }
+}
+
+extension ViewController: FavouritesTableViewControllerDelegate {
     @IBAction func addToFavourite(sender: AnyObject) {
         showAlert()
+    }
+    
+    func favouritesTableViewControllerDidSelectLocation(viewController: FavouritesTableViewController, location: Location) {
+
+        currentLocation = CLLocationCoordinate2DMake(location.lat, location.lng)
+        
+        saveLocation()
+        showMapOnLocation()
     }
     
     func showAlert() {
