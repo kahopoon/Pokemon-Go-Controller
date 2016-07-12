@@ -99,3 +99,38 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
 }
 
+extension ViewController {
+    @IBAction func addToFavourite(sender: AnyObject) {
+        showAlert()
+    }
+    
+    func showAlert() {
+        let alertController = UIAlertController(title: "Add to Favourites", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alertController.addTextFieldWithConfigurationHandler { (textField) in
+            textField.placeholder = "Location name"
+        }
+        
+        let sendAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.Default) { [unowned self] (action) in
+            
+            if let string = alertController.textFields?.first?.text {
+                self.saveFavourites(string, location: self.currentLocation)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+        
+        alertController.addAction(sendAction)
+        alertController.addAction(cancelAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func saveFavourites(name: String, location: CLLocationCoordinate2D) {
+        
+        let object = Location(name: name, coordinate: location)
+        object.save()
+    }
+}
+
+
