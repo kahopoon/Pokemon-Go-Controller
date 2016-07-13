@@ -14,17 +14,23 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation:CLLocationCoordinate2D!
-    //let moveInterval = 0.00005
     var webServer:GCDWebServer = GCDWebServer()
+    enum Direction {
+        case UP, DOWN, LEFT, RIGHT;
+    }
     
     func moveInterval() -> Double {
         return Double("0.0000\(40 + (rand() % 20))")!
     }
     
+    func randomNumberBetween(firstNumber: Double, secondNumber: Double) -> Double{
+        return Double(arc4random()) / Double(UINT32_MAX) * abs(firstNumber - secondNumber) + min(firstNumber, secondNumber)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getSavedLocation() ? showMapOnLocation() : ()
+        if getSavedLocation() { showMapOnLocation() }
         
         startWebServer()
     }
@@ -34,12 +40,23 @@ class ViewController: UIViewController, MKMapViewDelegate {
         saveLocation()
     }
 
-    func changeCurrentLocation(direction:String) {
-
-        direction == "left" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude - moveInterval()) : ()
-        direction == "right" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude + moveInterval()) : ()
-        direction == "up" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude + moveInterval(), longitude: currentLocation.longitude) : ()
-        direction == "down" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude - moveInterval(), longitude: currentLocation.longitude) : ()
+    func changeCurrentLocation(movement:Direction) {
+        let jitter = randomNumberBetween(-0.000009, secondNumber: 0.000009) // add some jitteriness to the numbers for even more natural movement
+    
+        switch movement {
+        case .LEFT:
+            currentLocation.latitude += jitter
+            currentLocation.longitude -= moveInterval()
+        case .RIGHT:
+            currentLocation.latitude += jitter
+            currentLocation.longitude += moveInterval()
+        case .UP:
+            currentLocation.latitude += moveInterval()
+            currentLocation.longitude += jitter
+        case .DOWN:
+            currentLocation.latitude -= moveInterval()
+            currentLocation.longitude += jitter
+        }
         
         saveLocation()
         showMapOnLocation()
@@ -71,19 +88,19 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func moveUp(sender: AnyObject) {
-        changeCurrentLocation("up")
+        changeCurrentLocation(.UP)
     }
     
     @IBAction func moveDown(sender: AnyObject) {
-        changeCurrentLocation("down")
+        changeCurrentLocation(.DOWN)
     }
     
     @IBAction func moveLeft(sender: AnyObject) {
-        changeCurrentLocation("left")
+        changeCurrentLocation(.LEFT)
     }
     
     @IBAction func moveRight(sender: AnyObject) {
-        changeCurrentLocation("right")
+        changeCurrentLocation(.RIGHT)
     }
     
     func startWebServer(){
@@ -98,4 +115,57 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
 
 }
+
+extension ViewController {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "PresentFavouriteViewController",
+            let viewController = segue.destinationViewController.childViewControllers[0] as? FavouritesTableViewController {
+                viewController.delegate = self
+            
+        }
+    }
+}
+
+extension ViewController: FavouritesTableViewControllerDelegate {
+    @IBAction func addToFavourite(sender: AnyObject) {
+        showAlert()
+    }
+    
+    func favouritesTableViewControllerDidSelectLocation(viewController: FavouritesTableViewController, location: Location) {
+
+        currentLocation = CLLocationCoordinate2DMake(location.lat, location.lng)
+        
+        saveLocation()
+        showMapOnLocation()
+    }
+    
+    func showAlert() {
+        let alertController = UIAlertController(title: "Add to Favourites", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alertController.addTextFieldWithConfigurationHandler { (textField) in
+            textField.placeholder = "Location name"
+        }
+        
+        let sendAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.Default) { [unowned self] (action) in
+            
+            if let string = alertController.textFields?.first?.text {
+                self.saveFavourites(string, location: self.currentLocation)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+        
+        alertController.addAction(sendAction)
+        alertController.addAction(cancelAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func saveFavourites(name: String, location: CLLocationCoordinate2D) {
+        
+        let object = Location(name: name, coordinate: location)
+        object.save()
+    }
+}
+
 

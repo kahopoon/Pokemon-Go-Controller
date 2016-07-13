@@ -13,6 +13,8 @@
 		111183181D2E76AF00AD1C0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 111183171D2E76AF00AD1C0E /* Assets.xcassets */; };
 		1111831B1D2E76AF00AD1C0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 111183191D2E76AF00AD1C0E /* LaunchScreen.storyboard */; };
 		111183231D2E76D000AD1C0E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 111183221D2E76D000AD1C0E /* MapKit.framework */; };
+		236CD5041D356DD100C5589D /* FavouritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236CD5031D356DD100C5589D /* FavouritesTableViewController.swift */; };
+		236CD5061D356F7400C5589D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236CD5051D356F7400C5589D /* Location.swift */; };
 		E315B83FC44B3AD4B794B82A /* Pods_PokemonController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DD9AB658356283817A1F62 /* Pods_PokemonController.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +27,8 @@
 		1111831A1D2E76AF00AD1C0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1111831C1D2E76AF00AD1C0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		111183221D2E76D000AD1C0E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		236CD5031D356DD100C5589D /* FavouritesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavouritesTableViewController.swift; sourceTree = "<group>"; };
+		236CD5051D356F7400C5589D /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Model/Location.swift; sourceTree = "<group>"; };
 		2D7876BC2D7015BF303EB541 /* Pods-PokemonController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonController.release.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonController/Pods-PokemonController.release.xcconfig"; sourceTree = "<group>"; };
 		5788FCCDAF20FEE2B1DD0A8F /* Pods-PokemonController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonController.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PokemonController/Pods-PokemonController.debug.xcconfig"; sourceTree = "<group>"; };
 		E2DD9AB658356283817A1F62 /* Pods_PokemonController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PokemonController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -35,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				111183231D2E76D000AD1C0E /* MapKit.framework in Frameworks */,
+				115479541D3487AF00013FD1 /* MapKit.framework in Frameworks */,
 				E315B83FC44B3AD4B794B82A /* Pods_PokemonController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,12 +71,22 @@
 			children = (
 				111183101D2E76AF00AD1C0E /* AppDelegate.swift */,
 				111183121D2E76AF00AD1C0E /* ViewController.swift */,
+				236CD5031D356DD100C5589D /* FavouritesTableViewController.swift */,
+				236CD5071D356F7A00C5589D /* Model */,
 				111183141D2E76AF00AD1C0E /* Main.storyboard */,
 				111183171D2E76AF00AD1C0E /* Assets.xcassets */,
 				111183191D2E76AF00AD1C0E /* LaunchScreen.storyboard */,
 				1111831C1D2E76AF00AD1C0E /* Info.plist */,
 			);
 			path = PokemonController;
+			sourceTree = "<group>";
+		};
+		236CD5071D356F7A00C5589D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				236CD5051D356F7400C5589D /* Location.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		C35A65C9191211EFEFA657D7 /* Pods */ = {
@@ -216,6 +230,8 @@
 			files = (
 				111183131D2E76AF00AD1C0E /* ViewController.swift in Sources */,
 				111183111D2E76AF00AD1C0E /* AppDelegate.swift in Sources */,
+				236CD5061D356F7400C5589D /* Location.swift in Sources */,
+				236CD5041D356DD100C5589D /* FavouritesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +351,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = PokemonController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.kahopoon.PokemonController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -351,6 +368,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = PokemonController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.kahopoon.PokemonController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
