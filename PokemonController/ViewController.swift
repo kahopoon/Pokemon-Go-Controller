@@ -115,3 +115,57 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
 
 }
+
+extension ViewController {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "PresentFavouriteViewController",
+            let viewController = segue.destinationViewController.childViewControllers[0] as? FavouritesTableViewController {
+                viewController.delegate = self
+            
+        }
+    }
+}
+
+extension ViewController: FavouritesTableViewControllerDelegate {
+    @IBAction func addToFavourite(sender: AnyObject) {
+        showAlert()
+    }
+    
+    func favouritesTableViewControllerDidSelectLocation(viewController: FavouritesTableViewController, location: Location) {
+
+        currentLocation = CLLocationCoordinate2DMake(location.lat, location.lng)
+        
+        saveLocation()
+        showMapOnLocation()
+    }
+    
+    func showAlert() {
+        let alertController = UIAlertController(title: "Add to Favourites", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alertController.addTextFieldWithConfigurationHandler { (textField) in
+            textField.placeholder = "Location name"
+        }
+        
+        let sendAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.Default) { [unowned self] (action) in
+            
+            if let string = alertController.textFields?.first?.text {
+                self.saveFavourites(string, location: self.currentLocation)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+        
+        alertController.addAction(sendAction)
+        alertController.addAction(cancelAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func saveFavourites(name: String, location: CLLocationCoordinate2D) {
+        
+        let object = Location(name: name, coordinate: location)
+        object.save()
+    }
+}
+
+
