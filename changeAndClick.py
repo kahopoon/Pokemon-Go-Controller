@@ -19,7 +19,6 @@ def clickAction():
     os.system("./autoClicker -x 500 -y 668")
     time.sleep(1)
     os.system("./autoClicker -x 550 -y 717")
-    time.sleep(1)
     print "clicking!!"
 
 
