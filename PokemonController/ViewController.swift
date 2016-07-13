@@ -53,7 +53,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         case .UP:
             currentLocation.latitude += moveInterval()
             currentLocation.longitude += jitter
-        case .DOWN
+        case .DOWN:
             currentLocation.latitude -= moveInterval()
             currentLocation.longitude += jitter
         }
