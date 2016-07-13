@@ -14,17 +14,23 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation:CLLocationCoordinate2D!
-    //let moveInterval = 0.00005
     var webServer:GCDWebServer = GCDWebServer()
+    enum Direction {
+        case UP, DOWN, LEFT, RIGHT;
+    }
     
     func moveInterval() -> Double {
         return Double("0.0000\(40 + (rand() % 20))")!
     }
     
+    func randomNumberBetween(firstNumber: Double, secondNumber: Double) -> Double{
+        return Double(arc4random()) / Double(UINT32_MAX) * abs(firstNumber - secondNumber) + min(firstNumber, secondNumber)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getSavedLocation() ? showMapOnLocation() : ()
+        if getSavedLocation() { showMapOnLocation() }
         
         startWebServer()
     }
@@ -34,12 +40,23 @@ class ViewController: UIViewController, MKMapViewDelegate {
         saveLocation()
     }
 
-    func changeCurrentLocation(direction:String) {
-
-        direction == "left" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude - moveInterval()) : ()
-        direction == "right" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude + moveInterval()) : ()
-        direction == "up" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude + moveInterval(), longitude: currentLocation.longitude) : ()
-        direction == "down" ? currentLocation = CLLocationCoordinate2D(latitude: currentLocation.latitude - moveInterval(), longitude: currentLocation.longitude) : ()
+    func changeCurrentLocation(movement:Direction) {
+        let jitter = randomNumberBetween(-0.000009, secondNumber: 0.000009) // add some jitteriness to the numbers for even more natural movement
+    
+        switch movement {
+        case .LEFT:
+            currentLocation.latitude += jitter
+            currentLocation.longitude -= moveInterval()
+        case .RIGHT:
+            currentLocation.latitude += jitter
+            currentLocation.longitude += moveInterval()
+        case .UP:
+            currentLocation.latitude += moveInterval()
+            currentLocation.longitude += jitter
+        case .DOWN
+            currentLocation.latitude -= moveInterval()
+            currentLocation.longitude += jitter
+        }
         
         saveLocation()
         showMapOnLocation()
@@ -71,19 +88,19 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func moveUp(sender: AnyObject) {
-        changeCurrentLocation("up")
+        changeCurrentLocation(.UP)
     }
     
     @IBAction func moveDown(sender: AnyObject) {
-        changeCurrentLocation("down")
+        changeCurrentLocation(.DOWN)
     }
     
     @IBAction func moveLeft(sender: AnyObject) {
-        changeCurrentLocation("left")
+        changeCurrentLocation(.LEFT)
     }
     
     @IBAction func moveRight(sender: AnyObject) {
-        changeCurrentLocation("right")
+        changeCurrentLocation(.RIGHT)
     }
     
     func startWebServer(){
@@ -98,4 +115,3 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
 
 }
-
