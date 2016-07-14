@@ -59,7 +59,7 @@ Create a blank single page app with your Xcode. Remember where you put the `gpx`
 ![Alt text](Assets/xcodeSimulate.png?raw=true "controller")  
 Run this project on your iOS device that will actually run the Pokemon Go game, when running, at Xcode you will see a button to simulate location, so you see the option of your `gpx` file. Our next step is to constantly press this two buttons to simulate your location constantly and automatically.
 
-http://stackoverflow.com/questions/4230867/how-do-i-simulate-a-mouse-click-through-the-mac-terminal/26687223  
+https://stackoverflow.com/questions/4230867/how-do-i-simulate-a-mouse-click-through-the-mac-terminal/26687223  
 By this, we can simulate a / some / lot of click(s) programmatically  
 ```shell
 gcc -o autoClicker autoClicker.m -framework ApplicationServices -framework Foundation
@@ -92,13 +92,13 @@ def start():
 
 start()
 ```
-So change the x,y location of your Xcode's simulate button. LOL don't ask me your x,y, find it and test it by yourself, to have it easy when adjusting your x,y, you may set the sleep time longer among loops :) More tip: the loop will stop if you close the game controller as it looks for the active state on game controller, so please change the `urlopen` address here too with your game controller's IP.
+So change the X,Y location of your Xcode's simulate button. LOL don't ask me your X,Y, find it and test it by yourself, to have it easy when adjusting your X,Y, you may set the sleep time longer among loops :) More tip: the loop will stop if you close the game controller as it looks for the active state on game controller, so please change the `urlopen` address here too with your game controller's IP.
 
 ## Overall flow
-1. you provide location data on game controller  
-2. receive it and generate `gpx` file constantly when you move  
-3. blank project referencing the `gpx` and simulate on your playing device
-4. auto click the Xcode buttons constantly
+1. You provide location data on game controller  
+2. Receive it and generate `gpx` file constantly when you move  
+3. Blank project referencing the `gpx` and simulate on your playing device
+4. Auto click the Xcode buttons constantly
 
 # Have Fun!
 ![Alt text](Assets/finalResult.png?raw=true "final result")
