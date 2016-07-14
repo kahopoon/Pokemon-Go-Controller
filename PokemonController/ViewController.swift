@@ -165,6 +165,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
 		}
 	}
 	
+
 	func longHoldTrigger(){
 		longPressTimer.invalidate()
 		let warningAlert = UIAlertController(title: "Warning!!", message: "Do you want to move to this location ?", preferredStyle: UIAlertControllerStyle.Alert)
@@ -212,8 +213,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
 	
 	func prepareRoute(route: MKRoute) {
 		currentRoutes.removeAll()
+		var tempPoints:UnsafeMutablePointer<MKMapPoint>!
 		for _step in route.steps {
-			currentRoutes.append(Waypoint(step: _step))
+			tempPoints = _step.polyline.points()
+			for i in 0..<_step.polyline.pointCount {
+				currentRoutes.append(Waypoint(step: tempPoints[i]))
+			}
 		}
 		if(currentRoutes.count > 0){
 			autoMoveSwitch.setOn(true, animated: true)
@@ -354,6 +359,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     func saveLocation() {
         NSUserDefaults.standardUserDefaults().setObject(getCurrentLocationDict(), forKey: "savedLocation")
         NSUserDefaults.standardUserDefaults().synchronize()
+//		sendToServer(getCurrentLocationDict())
     }
     
     func getSavedLocation() -> Bool {
@@ -466,7 +472,6 @@ extension CLLocationCoordinate2D {
 
 class Waypoint : NSObject {
 	private var location:CLLocationCoordinate2D!
-	private var distance:Double = 0.0
 	private var triggerTimer:NSTimer!
 	
 	private var totalStep: Double = 0.0
@@ -480,10 +485,9 @@ class Waypoint : NSObject {
 	private var _eachMove: ((CLLocationCoordinate2D) -> Bool)!
 	private var _completion: (() -> Void)!
 	
-	init(step:MKRouteStep){
+	init(step:MKMapPoint){
 		super.init()
-		self.location = step.polyline.coordinate
-		self.distance = step.distance
+		self.location = MKCoordinateForMapPoint(step)
 	}
 	
 	func calculateMoving(currentLocation: CLLocationCoordinate2D,moveSpeed: Double, eachMove: (CLLocationCoordinate2D) -> Bool, completion: () -> Void){
