@@ -9,17 +9,16 @@ lastLng = ""
 
 def getPokemonLocation():
     try:
-        response = urllib2.urlopen("http://192.168.199.112/", timeout=10)
+        response = urllib2.urlopen("http://192.168.199.134/", timeout=10)
         return json.load(response)
     except urllib2.URLError as e:
         print e.reason
 
 
 def clickAction():
-    os.system("./autoClicker -x 500 -y 668")
-    time.sleep(1)
-    os.system("./autoClicker -x 550 -y 717")
-    print "clicking!!"
+	if os.path.isfile("click.applescript"):
+		os.system("osascript click.applescript > /dev/null 2>&1")
+	print "clicking!!"
 
 
 def generateXML():
