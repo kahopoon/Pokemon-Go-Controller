@@ -54,13 +54,19 @@ If running normal, at console you should see something like this when your drag 
 
 ## Simulate location to target device
 ![Alt text](Assets/blankProject.png?raw=true "controller")  
-Create a blank single page app with your Xcode. Remember where you put the gpx file? Import the gpx file to your project without copying it, just referencing.
+Create a blank single page app in Xcode. Remember where you put the gpx file? Import the gpx file to your project without copying it, just referencing.
 
 ![Alt text](Assets/xcodeSimulate.png?raw=true "controller")  
-Run this project on your iOS device that will actually run the Pokemon Go game, when running, at Xcode you will see a button to simulate location, so you see the option of your gpx file. Our next step is to constantly press this two buttons to simulate your location constantly and automatically.
+Run this project on your iOS device that will actually run the Pokemon Go game. The app will continue to run in the background as long as it's plugged in, so you can hit the home button. While running, you will see a button in Xcode to simulate location, here you see the name of your gpx file. We want to keep clicking this button to update the device locaiton for any changes made to the gpx. See the two methods to do this below:
 
-http://stackoverflow.com/questions/4230867/how-do-i-simulate-a-mouse-click-through-the-mac-terminal/26687223  
-By this, we can simulate a / some / lot of click(s) programmatically  
+
+####Refresh location via AppleScript (Easier):
+Double click the SimulateXCodeLocationPress.scpt file and click the run button within the Apple Script Editor. This continuously refreshes the simuluated location file from Xcode. To stop refreshing hit the stop button in the Apple Script Editor. (Using this applescript method you can continue to use your computer normally without xcode being the main window.)
+![Alt text](Assets/appleScriptScreeshot.png?raw=true "controller")
+
+
+
+####Refresh location via Python:
 ```
 gcc -o autoClicker autoClicker.m -framework ApplicationServices -framework Foundation
 ```
@@ -92,13 +98,14 @@ def start():
 
 start()
 ```
-So change the x,y location of your xcode's simulate button. LOL don't ask me your x,y, find it and test it by yourself, to have it easy when adjusting your x,y, you may set the sleep time longer among loops :) more tip: the loop will stop if you close the game controller as it looks for the active state on game controller, so please change the urlopen address here too with your game controller's ip.
+
+Using the python method you need to change the x,y location of your xcode's simulate button. LOL don't ask me your x,y, find it and test it by yourself, to have it easy when adjusting your x,y, you may set the sleep time longer among loops :) more tip: the loop will stop if you close the game controller as it looks for the active state on game controller, so please change the urlopen address here too with your game controller's ip.
 
 ## Overall flow
-1. you provide location data on game controller  
-2. receive it and generate gpx file constantly when you move  
-3. blank project referencing the gpx and simulate on your playing device
-4. auto click the xcode buttons constantly
+1. Location data on game controller (iPad in this case)
+2. Mac receives the location data and updates a gpx file constantly when you move
+3. A blank xcode project referencing the gpx is run on your playing device (iPhone in this case)
+4. Run one of the methods to auto click xcode's simulate location button to update it
 
 # Have Fun!
 ![Alt text](Assets/finalResult.png?raw=true "final result") 
