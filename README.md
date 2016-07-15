@@ -57,10 +57,16 @@ If running normal, at console you should see something like this when your drag 
 Create a blank single page app with your Xcode. Remember where you put the gpx file? Import the gpx file to your project without copying it, just referencing.
 
 ![Alt text](Assets/xcodeSimulate.png?raw=true "controller")  
-Run this project on your iOS device that will actually run the Pokemon Go game, when running, at Xcode you will see a button to simulate location, so you see the option of your gpx file. Our next step is to constantly press this two buttons to simulate your location constantly and automatically.
+Run this project on your iOS device that will actually run the Pokemon Go game, when running, at Xcode you will see a button to simulate location, so you see the option of your gpx file. Our next step is to constantly press this two buttons to simulate your location constantly and automatically. See the two methods to do this below:
 
-http://stackoverflow.com/questions/4230867/how-do-i-simulate-a-mouse-click-through-the-mac-terminal/26687223  
-By this, we can simulate a / some / lot of click(s) programmatically  
+
+####Refresh location via AppleScript:
+Double click the SimulateXCodeLocationPress.scpt file and click the run button within the Apple Script Editor. This continuously refreshes the simuluated location file from Xcode. To stop refreshing hit the stop button in the Apple Script Editor.
+![Alt text](Assets/appleScriptScreeshot.png?raw=true "controller")
+
+
+
+####Refresh location via Python:
 ```
 gcc -o autoClicker autoClicker.m -framework ApplicationServices -framework Foundation
 ```
@@ -92,6 +98,9 @@ def start():
 
 start()
 ```
+
+
+
 So change the x,y location of your xcode's simulate button. LOL don't ask me your x,y, find it and test it by yourself, to have it easy when adjusting your x,y, you may set the sleep time longer among loops :) more tip: the loop will stop if you close the game controller as it looks for the active state on game controller, so please change the urlopen address here too with your game controller's ip.
 
 ## Overall flow
