@@ -61,7 +61,7 @@ Run this project on your iOS device that will actually run the Pokemon Go game, 
 
 
 ####Refresh location via AppleScript:
-Double click the SimulateXCodeLocationPress.scpt file and click the run button within the Apple Script Editor. This continuously refreshes the simuluated location file from Xcode. To stop refreshing hit the stop button in the Apple Script Editor.
+Double click the SimulateXCodeLocationPress.scpt file and click the run button within the Apple Script Editor. This continuously refreshes the simuluated location file from Xcode. To stop refreshing hit the stop button in the Apple Script Editor. (Using this applescript method you can continue to use your computer normally without xcode being the main window.)
 ![Alt text](Assets/appleScriptScreeshot.png?raw=true "controller")
 
 
