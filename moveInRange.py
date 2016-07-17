@@ -80,8 +80,6 @@ class Coordinate:
         return deepcopy(new_coord)
 
 
-
-
 coordinates = [
     Coordinate(40.7680578657186, -73.981887864142),
     Coordinate(40.7643841763404, -73.972945530681),
@@ -118,7 +116,7 @@ def writeFile(coordinate):
     time.sleep(seconds_pause)
 
 
-def moveToCoordinate(start, end, pace=Coordinate(50, 50)):
+def moveToCoordinate(start, end, pace=25):
     current = start
 
     change = end - start
