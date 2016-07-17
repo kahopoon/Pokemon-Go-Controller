@@ -3,6 +3,7 @@ import xml.etree.cElementTree as ET
 import time as time
 import os
 from copy import deepcopy
+from subprocess import Popen, PIPE
 
 
 ''' x and y coordinate of xcode location button '''
@@ -26,6 +27,11 @@ NUM_INCREMENTS_UP = 50
 ''' number of pixels down for xcode button '''
 NUM_PIXELS_DOWN_FOR_CLICK = 50
 
+''' click or perform apple script '''
+USE_APPLE_SCRIPT = True
+
+''' file name of location file '''
+LOCATION_FILE_NAME = 'pokemonLocation'
 
 class Coordinate:
 
@@ -120,22 +126,48 @@ def continueWalking(change, current, end):
 # continueWalking(0.000073, coordinates[0].lat, coordinates[1].lat)
 # continueWalking(-0.000179, coordinates[0].lon, coordinates[1].lon)
 
+def moveInApp():
+
+    if USE_APPLE_SCRIPT is True:
+        move_script = '''
+            property locationName : "%s" #  name of gpx filex
+
+            tell application "System Events"
+                tell process "Xcode"
+                    click menu item locationName of menu 1 of menu item "Simulate Location" of menu 1 of menu bar item "Debug" of menu bar 1
+                end tell
+            end tell
+        ''' % (LOCATION_FILE_NAME)
+
+        args = []
+        process = Popen(
+            ['osascript', '-'] + args,
+            stdin=PIPE,
+            stdout=PIPE,
+            stderr=PIPE
+        )
+
+        stdout, stderr = process.communicate(move_script)
+
+        if len(stderr) != 0:
+            print('Error', stderr)
+            exit()
+
+    else:
+        os.system("./autoClicker -x %d -y %d" % (XCODE_LOCATION_BUTTON_COORDINATES ['x'], XCODE_LOCATION_BUTTON_COORDINATES ['y']))
+        os.system("./autoClicker -x %d -y %d" % (XCODE_LOCATION_BUTTON_COORDINATES ['x'], XCODE_LOCATION_BUTTON_COORDINATES ['y'] + NUM_PIXELS_DOWN_FOR_CLICK))
+
+    ''' delay '''
+    time.sleep(SECONDS_PAUSE_BETWEEN_MOVES)
 
 def writeFile(coordinate):
     gpx = ET.Element("gpx", version="1.1", creator="Xcode")
     wpt = ET.SubElement(gpx, "wpt", lat=str(coordinate.lat), lon=str(coordinate.lon))
-    ET.SubElement(wpt, "name").text = "PokemonLocation"
-    ET.ElementTree(gpx).write("pokemonLocation.gpx")
+    ET.SubElement(wpt, "name").text = LOCATION_FILE_NAME
+    ET.ElementTree(gpx).write("%s.gpx" % (LOCATION_FILE_NAME))
 
     print("Location Updated to:", coordinate)
     time.sleep(0.01)
-
-    os.system("./autoClicker -x %d -y %d" % (XCODE_LOCATION_BUTTON_COORDINATES ['x'], XCODE_LOCATION_BUTTON_COORDINATES ['y']))
-    os.system("./autoClicker -x %d -y %d" % (XCODE_LOCATION_BUTTON_COORDINATES ['x'], XCODE_LOCATION_BUTTON_COORDINATES ['y'] + NUM_PIXELS_DOWN_FOR_CLICK))
-
-    print('Clicking!')
-    time.sleep(SECONDS_PAUSE_BETWEEN_MOVES)
-
 
 def moveToCoordinate(start, end, pace=NUM_STEPS_ACCROSS_PER_PASS):
     current = start
@@ -156,9 +188,10 @@ def moveToCoordinate(start, end, pace=NUM_STEPS_ACCROSS_PER_PASS):
         current += change
 
         writeFile(current)
+        moveInApp()
 
         i_moves += 1
-    print('moved', i_moves)
+    # print('moved', i_moves)
     return end
 
 
