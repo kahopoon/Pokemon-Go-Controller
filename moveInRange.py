@@ -49,58 +49,36 @@ class Coordinate:
 
         return (self.lat == other.lat) and (self.lon == other.lon)
     def __mul__(self, other):
-
-        new_coord = Coordinate(self.lat, self.lon)
-
         if isinstance(other, Coordinate):
-            new_coord.lat *= other.lat
-            new_coord.lon *= other.lon
+            return Coordinate(self.lat * other.lat, self.lon * other.long)
         elif type(other) is int:
-            new_coord.lat *= other
-            new_coord.lon *= other
+            return Coordinate(self.lat * other, self.lon * other)
         else:
             raise ValueError('Unknown type')
-        return new_coord
 
     def __add__(self, other):
-        new_coord = Coordinate(self.lat, self.lon)
         if isinstance(other, Coordinate):
-            new_coord.lat += other.lat
-            new_coord.lon += other.lon
+            return Coordinate(self.lat + other.lat, self.lon + other.lon)
         elif type(other) is int:
-            new_coord.lat += other
-            new_coord.lon += other
+            return Coordinate(self.lat + other, self.lon + other)
         else:
             raise ValueError('Unknown type')
-
-        return new_coord
 
     def __sub__(self, other):
-        new_coord = Coordinate(self.lat, self.lon)
-
         if isinstance(other, Coordinate):
-            new_coord.lat -= other.lat
-            new_coord.lon -= other.lon
+            return Coordinate(self.lat - other.lat, self.lon - other.lon)
         elif type(other) is int:
-            new_coord.lat -= other
-            new_coord.lon -= other
-        else:
-            raise ValueError('Unknown type', type(other), other is Coordinate)
-        return new_coord
-
-    def __truediv__(self, other):
-
-        new_coord = Coordinate(self.lat, self.lon)
-
-        if isinstance(other, Coordinate):
-            new_coord.lat /= other.lat
-            new_coord.lon /= other.lon
-        elif type(other) is int:
-            new_coord.lat /= other
-            new_coord.lon /= other
+            return Coordinate(self.lat - other, self.lon - other)
         else:
             raise ValueError('Unknown type')
-        return new_coord
+
+    def __truediv__(self, other):
+        if isinstance(other, Coordinate):
+            return Coordinate(self.lat / other.lat, self.lon / other.lon)
+        elif type(other) is int:
+            return Coordinate(self.lat / other, self.lon / other)
+        else:
+            raise ValueError('Unknown type')
 
     def __div__(self, other):
 
@@ -167,7 +145,6 @@ def writeFile(coordinate):
     ET.ElementTree(gpx).write("%s.gpx" % (LOCATION_FILE_NAME))
 
     print("Location Updated to:", coordinate)
-    time.sleep(0.01)
 
 def moveToCoordinate(start, end, pace=NUM_STEPS_ACCROSS_PER_PASS):
     current = start
