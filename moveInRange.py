@@ -5,13 +5,6 @@ import os
 from copy import deepcopy
 from subprocess import Popen, PIPE
 
-
-''' x and y coordinate of xcode location button '''
-XCODE_LOCATION_BUTTON_COORDINATES = {
-    'x': 650,
-    'y': 900
-}
-
 ''' amount of time to wait between location changes'''
 SECONDS_PAUSE_BETWEEN_MOVES = 2.2
 
@@ -29,6 +22,12 @@ NUM_PIXELS_DOWN_FOR_CLICK = 50
 
 ''' click or perform apple script '''
 USE_APPLE_SCRIPT = True
+
+''' x and y coordinate of xcode location button '''
+XCODE_LOCATION_BUTTON_COORDINATES = {
+    'x': 650,
+    'y': 900
+}
 
 ''' file name of location file '''
 LOCATION_FILE_NAME = 'pokemonLocation'
