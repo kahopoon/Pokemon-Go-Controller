@@ -1,7 +1,9 @@
+from __future__ import print_function, division
 import xml.etree.cElementTree as ET
 import time as time
 import os
 from copy import deepcopy
+
 
 ''' x and y coordinate of xcode location button '''
 XCODE_LOCATION_BUTTON_COORDINATES = {
@@ -10,7 +12,7 @@ XCODE_LOCATION_BUTTON_COORDINATES = {
 }
 
 ''' amount of time to wait between location changes'''
-SECONDS_PAUSE_BETWEEN_MOVESZ = 1.2
+SECONDS_PAUSE_BETWEEN_MOVESZ = 2.2
 
 ''' number of steps to move between horizontal locations'''
 NUMBER_STEPS_UP_PER_PASS = 100
@@ -38,7 +40,7 @@ class Coordinate:
 
         new_coord = Coordinate(self.lat, self.lng)
 
-        if type(other) is Coordinate:
+        if isinstance(other, Coordinate):
             new_coord.lat *= other.lat
             new_coord.lng *= other.lng
         elif type(other) is int:
@@ -50,7 +52,7 @@ class Coordinate:
 
     def __add__(self, other):
         new_coord = Coordinate(self.lat, self.lng)
-        if type(other) is Coordinate:
+        if isinstance(other, Coordinate):
             new_coord.lat += other.lat
             new_coord.lng += other.lng
         elif type(other) is int:
@@ -64,21 +66,21 @@ class Coordinate:
     def __sub__(self, other):
         new_coord = Coordinate(self.lat, self.lng)
 
-        if type(other) is Coordinate:
+        if isinstance(other, Coordinate):
             new_coord.lat -= other.lat
             new_coord.lng -= other.lng
         elif type(other) is int:
             new_coord.lat -= other
             new_coord.lng -= other
         else:
-            raise ValueError('Unknown type', type(other))
+            raise ValueError('Unknown type', type(other), other is Coordinate)
         return new_coord
 
     def __truediv__(self, other):
 
         new_coord = Coordinate(self.lat, self.lng)
 
-        if type(other) is Coordinate:
+        if isinstance(other, Coordinate):
             new_coord.lat /= other.lat
             new_coord.lng /= other.lng
         elif type(other) is int:
@@ -88,12 +90,16 @@ class Coordinate:
             raise ValueError('Unknown type')
         return new_coord
 
+    def __div__(self, other):
+
+        return self.__truediv__(other)
+
 
 coordinates = [
     Coordinate(40.7680578657186, -73.981887864142),  # Bottom Left
     Coordinate(40.7643841763404, -73.972945530681),  # Bottom Right
     Coordinate(40.7969415563396, -73.949272376481),  # Top Right
-    Coordinate(40.800654989832, -73.958185987147),   # Top Left
+    Coordinate(40.8006549898320, -73.958185987147),  # Top Left
 ]
 
 def continueWalking(change, current, end):
@@ -133,8 +139,7 @@ def moveToCoordinate(start, end, pace=25):
 
     i_moves = 0
     while (
-        False
-        or continueWalking(change.lat, current.lat, end.lat) \
+        continueWalking(change.lat, current.lat, end.lat) \
         or continueWalking(change.lng, current.lng, end.lng)
     ):
 
