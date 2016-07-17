@@ -2,3 +2,8 @@ autoClicker
 pokemonLocation.gpx
 
 DerivedData/*
+*.pcm
+
+*.nib
+
+Mover/DerivedData/*

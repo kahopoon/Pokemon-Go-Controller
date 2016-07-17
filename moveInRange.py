@@ -1,7 +1,8 @@
 import xml.etree.cElementTree as ET
 import time as time
+import os
 
-seconds_pause = 1.0
+seconds_pause = 1.2
 pace_up = 100
 
 from copy import deepcopy
@@ -108,7 +109,12 @@ def writeFile(coordinate):
     ET.ElementTree(gpx).write("pokemonLocation.gpx")
 
     print("Location Updated!", coordinate)
+    time.sleep(0.01)
 
+    os.system("./autoClicker -x 650 -y 900")
+    os.system("./autoClicker -x 650 -y 950")
+
+    print('Clicking!')
     time.sleep(seconds_pause)
 
 
@@ -132,7 +138,6 @@ def moveToCoordinate(start, end, pace=Coordinate(50, 50)):
         current += change
 
         writeFile(current)
-
 
         i_moves += 1
     print('moved', i_moves)
@@ -162,19 +167,19 @@ def main():
             print('ENDED GAME')
             break
 
-        # move left
+        # move right
         current = moveToCoordinate(current,  coordinates[1] + change_right * num_times_right)
         num_times_right += 1
 
         # move up
-        current =  moveToCoordinate(current, coordinates[3] + change_right * num_times_right, pace=2)
+        current =  moveToCoordinate(current, coordinates[1] + change_right * num_times_right, pace=2)
 
-        # move right
-        current = moveToCoordinate(current, coordinates[1] + change_left * num_times_left)
+        # move left
+        current = moveToCoordinate(current, coordinates[0] + change_left * num_times_left)
         num_times_left += 1
 
         # move up
-        current = moveToCoordinate(current, coordinates[1] + change_left * num_times_left, pace=2)
+        current = moveToCoordinate(current, coordinates[0] + change_left * num_times_left, pace=2)
 
 
         near_end = current - end
