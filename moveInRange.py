@@ -29,69 +29,69 @@ NUM_PIXELS_DOWN_FOR_CLICK = 50
 
 class Coordinate:
 
-    def __init__(self, lat, lng):
+    def __init__(self, lat, lon):
         self.lat = lat
-        self.lng = lng
+        self.lon = lon
 
     def get(self):
-        return [self.lat, self.lng]
+        return [self.lat, self.lon]
 
     def __str__(self):
-        return 'lat: %f, lng: %f' % (self.lat, self.lng)
+        return 'lat: %f, lon: %f' % (self.lat, self.lon)
 
     def __eq__(self, other):
 
-        return (self.lat == other.lat) and (self.lng == other.lng)
+        return (self.lat == other.lat) and (self.lon == other.lon)
     def __mul__(self, other):
 
-        new_coord = Coordinate(self.lat, self.lng)
+        new_coord = Coordinate(self.lat, self.lon)
 
         if isinstance(other, Coordinate):
             new_coord.lat *= other.lat
-            new_coord.lng *= other.lng
+            new_coord.lon *= other.lon
         elif type(other) is int:
             new_coord.lat *= other
-            new_coord.lng *= other
+            new_coord.lon *= other
         else:
             raise ValueError('Unknown type')
         return new_coord
 
     def __add__(self, other):
-        new_coord = Coordinate(self.lat, self.lng)
+        new_coord = Coordinate(self.lat, self.lon)
         if isinstance(other, Coordinate):
             new_coord.lat += other.lat
-            new_coord.lng += other.lng
+            new_coord.lon += other.lon
         elif type(other) is int:
             new_coord.lat += other
-            new_coord.lng += other
+            new_coord.lon += other
         else:
             raise ValueError('Unknown type')
 
         return new_coord
 
     def __sub__(self, other):
-        new_coord = Coordinate(self.lat, self.lng)
+        new_coord = Coordinate(self.lat, self.lon)
 
         if isinstance(other, Coordinate):
             new_coord.lat -= other.lat
-            new_coord.lng -= other.lng
+            new_coord.lon -= other.lon
         elif type(other) is int:
             new_coord.lat -= other
-            new_coord.lng -= other
+            new_coord.lon -= other
         else:
             raise ValueError('Unknown type', type(other), other is Coordinate)
         return new_coord
 
     def __truediv__(self, other):
 
-        new_coord = Coordinate(self.lat, self.lng)
+        new_coord = Coordinate(self.lat, self.lon)
 
         if isinstance(other, Coordinate):
             new_coord.lat /= other.lat
-            new_coord.lng /= other.lng
+            new_coord.lon /= other.lon
         elif type(other) is int:
             new_coord.lat /= other
-            new_coord.lng /= other
+            new_coord.lon /= other
         else:
             raise ValueError('Unknown type')
         return new_coord
@@ -118,16 +118,16 @@ def continueWalking(change, current, end):
     return False
 
 # continueWalking(0.000073, coordinates[0].lat, coordinates[1].lat)
-# continueWalking(-0.000179, coordinates[0].lng, coordinates[1].lng)
+# continueWalking(-0.000179, coordinates[0].lon, coordinates[1].lon)
 
 
 def writeFile(coordinate):
     gpx = ET.Element("gpx", version="1.1", creator="Xcode")
-    wpt = ET.SubElement(gpx, "wpt", lat=str(coordinate.lat), lon=str(coordinate.lng))
+    wpt = ET.SubElement(gpx, "wpt", lat=str(coordinate.lat), lon=str(coordinate.lon))
     ET.SubElement(wpt, "name").text = "PokemonLocation"
     ET.ElementTree(gpx).write("pokemonLocation.gpx")
 
-    print("Location Updated!", coordinate)
+    print("Location Updated to:", coordinate)
     time.sleep(0.01)
 
     os.system("./autoClicker -x %d -y %d" % (XCODE_LOCATION_BUTTON_COORDINATES ['x'], XCODE_LOCATION_BUTTON_COORDINATES ['y']))
@@ -146,7 +146,7 @@ def moveToCoordinate(start, end, pace=NUM_STEPS_ACCROSS_PER_PASS):
     i_moves = 0
     while (
         continueWalking(change.lat, current.lat, end.lat) \
-        or continueWalking(change.lng, current.lng, end.lng)
+        or continueWalking(change.lon, current.lon, end.lon)
     ):
 
         if i_moves > 500:
@@ -181,7 +181,7 @@ def main():
     i_loops = 0
     while True:
 
-        if i_loops > 999:
+        if i_loops > 99999:
             print('ENDED GAME')
             break
 
@@ -200,7 +200,7 @@ def main():
         current = moveToCoordinate(current, coordinates[0] + change_left * num_times_left, pace=2)
 
         near_end = current - end
-        if abs(near_end.lat) <= 0.0001 or abs(near_end.lng) <= 0.0001:
+        if abs(near_end.lat) <= 0.0001 or abs(near_end.lon) <= 0.0001:
             print('END')
             break
 
