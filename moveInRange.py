@@ -12,10 +12,16 @@ XCODE_LOCATION_BUTTON_COORDINATES = {
 }
 
 ''' amount of time to wait between location changes'''
-SECONDS_PAUSE_BETWEEN_MOVESZ = 2.2
+SECONDS_PAUSE_BETWEEN_MOVES = 2.2
 
-''' number of steps to move between horizontal locations'''
-NUMBER_STEPS_UP_PER_PASS = 100
+''' number of steps to move vertical when on box edges '''
+NUM_STEPS_UP_PER_PASS = 2
+
+''' number of steps to move between horizontal pass'''
+NUM_STEPS_ACCROSS_PER_PASS = 25
+
+''' number of moves going vertical '''
+NUM_INCREMENTS_UP = 50
 
 ''' number of pixels down for xcode button '''
 NUM_PIXELS_DOWN_FOR_CLICK = 50
@@ -128,10 +134,10 @@ def writeFile(coordinate):
     os.system("./autoClicker -x %d -y %d" % (XCODE_LOCATION_BUTTON_COORDINATES ['x'], XCODE_LOCATION_BUTTON_COORDINATES ['y'] + NUM_PIXELS_DOWN_FOR_CLICK))
 
     print('Clicking!')
-    time.sleep(SECONDS_PAUSE_BETWEEN_MOVESZ)
+    time.sleep(SECONDS_PAUSE_BETWEEN_MOVES)
 
 
-def moveToCoordinate(start, end, pace=25):
+def moveToCoordinate(start, end, pace=NUM_STEPS_ACCROSS_PER_PASS):
     current = start
 
     change = end - start
@@ -164,10 +170,10 @@ def main():
     current = deepcopy(start)
 
     change_left = coordinates[3] - coordinates[0]
-    change_left /= NUMBER_STEPS_UP_PER_PASS
+    change_left /= NUM_INCREMENTS_UP
 
     change_right = coordinates[2] - coordinates[1]
-    change_right /= NUMBER_STEPS_UP_PER_PASS
+    change_right /= NUM_INCREMENTS_UP
 
     num_times_left = 0
     num_times_right = 0
