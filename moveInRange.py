@@ -1,11 +1,18 @@
 import xml.etree.cElementTree as ET
 import time as time
 import os
-
-seconds_pause = 1.2
-pace_up = 100
-
 from copy import deepcopy
+
+SECONDS_PAUSE_BETWEEN_MOVESZ = 1.2
+NUMBER_STEPS_UP_PER_PASS = 100
+
+LOCATION_BUTTON = {
+    'x': 650,
+    'y': 900
+}
+
+NUM_PIXELS_DOWN_FOR_CLICK = 50
+
 
 class Coordinate:
 
@@ -77,7 +84,7 @@ class Coordinate:
             new_coord.long /= other
         else:
             raise ValueError('Unknown type')
-        return deepcopy(new_coord)
+        return new_coord
 
 
 coordinates = [
@@ -109,11 +116,11 @@ def writeFile(coordinate):
     print("Location Updated!", coordinate)
     time.sleep(0.01)
 
-    os.system("./autoClicker -x 650 -y 900")
-    os.system("./autoClicker -x 650 -y 950")
+    os.system("./autoClicker -x %d -y %d" % (LOCATION_BUTTON['x'], LOCATION_BUTTON['y']))
+    os.system("./autoClicker -x %d -y %d" % (LOCATION_BUTTON['x'], LOCATION_BUTTON['y'] + NUM_PIXELS_DOWN_FOR_CLICK))
 
     print('Clicking!')
-    time.sleep(seconds_pause)
+    time.sleep(SECONDS_PAUSE_BETWEEN_MOVESZ)
 
 
 def moveToCoordinate(start, end, pace=25):
@@ -150,10 +157,10 @@ def main():
     current = deepcopy(start)
 
     change_left = coordinates[3] - coordinates[0]
-    change_left /= pace_up
+    change_left /= NUMBER_STEPS_UP_PER_PASS
 
     change_right = coordinates[2] - coordinates[1]
-    change_right /= pace_up
+    change_right /= NUMBER_STEPS_UP_PER_PASS
 
     num_times_left = 0
     num_times_right = 0
