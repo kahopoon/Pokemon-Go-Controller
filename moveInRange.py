@@ -12,7 +12,7 @@ SECONDS_PAUSE_BETWEEN_MOVES = 2.2
 NUM_STEPS_UP_PER_PASS = 2
 
 ''' number of steps to move between horizontal pass'''
-NUM_STEPS_ACCROSS_PER_PASS = 25
+NUM_STEPS_ACCROSS_PER_PASS = 20
 
 ''' number of moves going vertical '''
 NUM_INCREMENTS_UP = 50
@@ -199,14 +199,14 @@ def main():
         num_times_right += 1
 
         # move up
-        current =  moveToCoordinate(current, coordinates[1] + change_right * num_times_right, pace=2)
+        current =  moveToCoordinate(current, coordinates[1] + change_right * num_times_right, pace=NUM_STEPS_UP_PER_PASS)
 
         # move left
         current = moveToCoordinate(current, coordinates[0] + change_left * num_times_left)
         num_times_left += 1
 
         # move up
-        current = moveToCoordinate(current, coordinates[0] + change_left * num_times_left, pace=2)
+        current = moveToCoordinate(current, coordinates[0] + change_left * num_times_left, pace=NUM_STEPS_UP_PER_PASS)
 
         near_end = current - end
         if abs(near_end.lat) <= 0.0001 or abs(near_end.lon) <= 0.0001:
