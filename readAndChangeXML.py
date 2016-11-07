@@ -5,9 +5,11 @@ import json
 lastLat = ""
 lastLng = ""
 
+ip_address = "192.168.1.191"
+
 def getPokemonLocation():
 	try:
-		response = urllib2.urlopen("http://172.16.255.195/", timeout = 1)
+		response = urllib2.urlopen("http://%s/" % (ip_address), timeout = 1)
 		return json.load(response)
 	except urllib2.URLError as e:
 		print e.reason

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol FavouritesTableViewControllerDelegate {
-    func favouritesTableViewControllerDidSelectLocation(viewController: FavouritesTableViewController, location: Location)
+    func favouritesTableViewControllerDidSelectLocation(_ viewController: FavouritesTableViewController, location: Location)
 }
 
 class FavouritesTableViewController: UITableViewController {
@@ -21,8 +21,8 @@ class FavouritesTableViewController: UITableViewController {
 
     }
 
-    @IBAction func didPressDoneButton(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func didPressDoneButton(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -34,19 +34,19 @@ class FavouritesTableViewController: UITableViewController {
 extension FavouritesTableViewController {
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Location.allLocations().count
     }
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("LocationCell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LocationCell", for: indexPath)
         
-        let location = Location.allLocations()[indexPath.row]
+        let location = Location.allLocations()[(indexPath as NSIndexPath).row]
         
         cell.textLabel?.text = location.name
         cell.detailTextLabel?.text = "\(location.lat),\(location.lng)"
@@ -54,23 +54,23 @@ extension FavouritesTableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        showAlert(Location.allLocations()[indexPath.row])
+        showAlert(Location.allLocations()[(indexPath as NSIndexPath).row])
     }
 }
 
 extension FavouritesTableViewController {
-    func showAlert(location: Location) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+    func showAlert(_ location: Location) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let goAction = UIAlertAction(title: "Go", style: UIAlertActionStyle.Default) { [unowned self] (action) in
+        let goAction = UIAlertAction(title: "Go", style: UIAlertActionStyle.default) { [unowned self] (action) in
             self.delegate?.favouritesTableViewControllerDidSelectLocation(self, location: location)
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
         
-        let removeAction = UIAlertAction(title: "Remove from Favourites", style: UIAlertActionStyle.Destructive) { [weak self] (action) in
+        let removeAction = UIAlertAction(title: "Remove from Favourites", style: UIAlertActionStyle.destructive) { [weak self] (action) in
             
             location.remove()
             
@@ -80,6 +80,6 @@ extension FavouritesTableViewController {
         alertController.addAction(goAction)
         alertController.addAction(removeAction)
         
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
 }
