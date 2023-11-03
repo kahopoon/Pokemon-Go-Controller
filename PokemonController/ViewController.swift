@@ -11,7 +11,7 @@ import MapKit
 import GCDWebServer
 
 class ViewController: UIViewController, MKMapViewDelegate {
-
+    
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation:CLLocationCoordinate2D!
     var webServer:GCDWebServer = GCDWebServer()
@@ -20,7 +20,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func moveInterval() -> Double {
-        return Double("0.0000\(40 + (rand() % 20))")!
+        return Double("0.0000\(40 + (arc4random() % 20))")!
     }
     
     func randomNumberBetween(firstNumber: Double, secondNumber: Double) -> Double{
@@ -34,15 +34,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         startWebServer()
     }
-
-    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         currentLocation = mapView.centerCoordinate
         saveLocation()
     }
-
-    func changeCurrentLocation(movement:Direction) {
-        let jitter = randomNumberBetween(-0.000009, secondNumber: 0.000009) // add some jitteriness to the numbers for even more natural movement
     
+    func changeCurrentLocation(movement:Direction) {
+        let jitter = randomNumberBetween(firstNumber: -0.000009, secondNumber: 0.000009) // add some jitteriness to the numbers for even more natural movement
+        
         switch movement {
         case .LEFT:
             currentLocation.latitude += jitter
@@ -63,19 +63,19 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func showMapOnLocation() {
-        mapView.setCamera(MKMapCamera(lookingAtCenterCoordinate: currentLocation, fromEyeCoordinate: currentLocation, eyeAltitude: 500.0), animated: false)
+        mapView.setCamera(MKMapCamera(lookingAtCenter: currentLocation, fromEyeCoordinate: currentLocation, eyeAltitude: 500.0), animated: false)
     }
     
     func saveLocation() {
-        NSUserDefaults.standardUserDefaults().setObject(getCurrentLocationDict(), forKey: "savedLocation")
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(getCurrentLocationDict(), forKey: "savedLocation")
+        UserDefaults.standard.synchronize()
     }
     
     func getSavedLocation() -> Bool {
-        guard let savedLocation = NSUserDefaults.standardUserDefaults().objectForKey("savedLocation") else {
+        guard let savedLocation = UserDefaults.standard.object(forKey: "savedLocation") else {
             return false
         }
-        return putCurrentLocationFromDict(savedLocation as! [String : String])
+        return putCurrentLocationFromDict(dict: savedLocation as! [String : String])
     }
     
     func getCurrentLocationDict() -> [String:String] {
@@ -88,51 +88,54 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func moveUp(sender: AnyObject) {
-        changeCurrentLocation(.UP)
+        changeCurrentLocation(movement: .UP)
     }
     
     @IBAction func moveDown(sender: AnyObject) {
-        changeCurrentLocation(.DOWN)
+        changeCurrentLocation(movement: .DOWN)
     }
     
     @IBAction func moveLeft(sender: AnyObject) {
-        changeCurrentLocation(.LEFT)
+        changeCurrentLocation(movement: .LEFT)
     }
     
     @IBAction func moveRight(sender: AnyObject) {
-        changeCurrentLocation(.RIGHT)
+        changeCurrentLocation(movement: .RIGHT)
     }
     
+    @IBAction func addToFavourite(sender: AnyObject) {
+        showAlert()
+    }
+    
+    
     func startWebServer(){
-        webServer.addDefaultHandlerForMethod("GET", requestClass: GCDWebServerRequest.self, processBlock: {request in
-            return GCDWebServerDataResponse.init(JSONObject: self.getCurrentLocationDict())
+        webServer.addDefaultHandler(forMethod: "GET", request: GCDWebServerRequest.self, processBlock: {request in
+            return GCDWebServerDataResponse.init(jsonObject: self.getCurrentLocationDict())
         })
-        webServer.startWithPort(80, bonjourName: "pokemonController")
+        webServer.start(withPort: 80, bonjourName: "pokemonController")
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
 }
 
 extension ViewController {
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "PresentFavouriteViewController",
-            let viewController = segue.destinationViewController.childViewControllers[0] as? FavouritesTableViewController {
-                viewController.delegate = self
-            
+           let viewController = segue.destination.children[0] as? FavouritesTableViewController {
+            viewController.delegate = self
         }
     }
 }
 
 extension ViewController: FavouritesTableViewControllerDelegate {
-    @IBAction func addToFavourite(sender: AnyObject) {
-        showAlert()
-    }
     
     func favouritesTableViewControllerDidSelectLocation(viewController: FavouritesTableViewController, location: Location) {
-
+        
         currentLocation = CLLocationCoordinate2DMake(location.lat, location.lng)
         
         saveLocation()
@@ -140,25 +143,25 @@ extension ViewController: FavouritesTableViewControllerDelegate {
     }
     
     func showAlert() {
-        let alertController = UIAlertController(title: "Add to Favourites", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        let alertController = UIAlertController(title: "Add to Favourites", message: nil, preferredStyle: UIAlertController.Style.alert)
         
-        alertController.addTextFieldWithConfigurationHandler { (textField) in
+        alertController.addTextField { (textField) in
             textField.placeholder = "Location name"
         }
         
-        let sendAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.Default) { [unowned self] (action) in
+        let sendAction = UIAlertAction(title: "Add", style: UIAlertAction.Style.default) { [unowned self] (action) in
             
             if let string = alertController.textFields?.first?.text {
-                self.saveFavourites(string, location: self.currentLocation)
+                self.saveFavourites(name: string, location: self.currentLocation)
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
         
         alertController.addAction(sendAction)
         alertController.addAction(cancelAction)
         
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
     func saveFavourites(name: String, location: CLLocationCoordinate2D) {

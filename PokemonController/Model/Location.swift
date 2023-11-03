@@ -9,6 +9,9 @@
 import CoreLocation
 
 class Location: NSObject, NSCoding {
+    
+   
+    
     let name: String
     let lat: Double
     let lng: Double
@@ -20,22 +23,23 @@ class Location: NSObject, NSCoding {
     }
     
     required init(coder aDecoder: NSCoder) {
-        self.name = aDecoder.decodeObjectForKey("name") as! String
-        self.lat = aDecoder.decodeDoubleForKey("lat")
-        self.lng = aDecoder.decodeDoubleForKey("lng")
+        self.name = aDecoder.decodeObject(forKey: "name") as! String
+        self.lat = aDecoder.decodeDouble(forKey: "lat")
+        self.lng = aDecoder.decodeDouble(forKey: "lng")
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(self.name, forKey: "name")
-        aCoder.encodeDouble(self.lat, forKey: "lat")
-        aCoder.encodeDouble(self.lng, forKey: "lng")
+    func encode(with coder: NSCoder) {
+        coder.encode(self.name, forKey: "name")
+        coder.encode(self.lat, forKey: "lat")
+        coder.encode(self.lng, forKey: "lng")
     }
 }
 
 extension Location {
+    
     static func allLocations() -> [Location] {
-        if let data = NSUserDefaults.standardUserDefaults().objectForKey("ALL_LOCATIONS") as? NSData,
-            locations = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [Location] {
+        if let data = UserDefaults.standard.object(forKey: "ALL_LOCATIONS") as? NSData,
+           let locations = NSKeyedUnarchiver.unarchiveObject(with: data as Data) as? [Location] {
                 return locations
         }
         return []
@@ -43,10 +47,11 @@ extension Location {
     
     func save() {
         var newLocations = Location.allLocations()
-        newLocations.insert(self, atIndex: 0)
+        newLocations.insert(self, at: 0)
+        //newLocations.insert(self, atIndex: 0)
         
-        let data = NSKeyedArchiver.archivedDataWithRootObject(newLocations)
-        NSUserDefaults.standardUserDefaults().setObject(data, forKey: "ALL_LOCATIONS")
+        let data = NSKeyedArchiver.archivedData(withRootObject: newLocations)
+        UserDefaults.standard.set(data, forKey: "ALL_LOCATIONS")
     }
     
     func remove() {
@@ -54,8 +59,8 @@ extension Location {
             return !(location == self)
         }
         
-        let data = NSKeyedArchiver.archivedDataWithRootObject(newLocations)
-        NSUserDefaults.standardUserDefaults().setObject(data, forKey: "ALL_LOCATIONS")
+        let data = NSKeyedArchiver.archivedData(withRootObject: newLocations)
+        UserDefaults.standard.set(data, forKey: "ALL_LOCATIONS")
     }
 }
 
